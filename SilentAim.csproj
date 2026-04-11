@@ -10,7 +10,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
     <!-- Paths — adjust TLDPath if your game is installed elsewhere -->
-    <TLDPath>F:\SteamLibrary\steamapps\common\TheLongDark</TLDPath>
+    <TLDPath>F:\SteamLibrary\steamapps\common\TheLongDark</TLDPath><!--insert your path to the game-->
     <MelonLoaderPath>$(TLDPath)\MelonLoader\net6</MelonLoaderPath>
     <Il2CppAssembliesPath>$(TLDPath)\MelonLoader\Il2CppAssemblies</Il2CppAssembliesPath>
   </PropertyGroup>

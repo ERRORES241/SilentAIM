@@ -31,7 +31,7 @@ namespace SilentAim
         public KeyCode ToggleKey = KeyCode.F2;
 
         [Name("Aim FOV (degrees)")]
-        [Description("Field of view cone for target detection")]
+        [Description("Field of view cone for target detection (Use mouse wheel to change, or ctrl + plus/minus)")]
         [Slider(5f, 180f)]
         public float AimFov = 60f;
 
