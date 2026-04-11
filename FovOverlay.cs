@@ -93,7 +93,7 @@ namespace SilentAim
         /// </summary>
         private static void DrawCircle(Vector2 center, float radius, Color color, float thickness)
         {
-            int segments = 64;
+            int segments = Mathf.Clamp((int)(radius * 0.7f), 32, 128); // Smooth scaling segments
             float angleStep = 360f / segments;
 
             var mat = GetGLMaterial();
@@ -102,30 +102,27 @@ namespace SilentAim
             GL.PushMatrix();
             GL.LoadPixelMatrix(); // Set up correct pixel coordinate space
 
-            GL.Begin(GL.LINES);
+            GL.Begin(GL.TRIANGLE_STRIP);
             GL.Color(color);
 
-            for (int i = 0; i < segments; i++)
+            float innerRadius = radius - thickness / 2f;
+            float outerRadius = radius + thickness / 2f;
+
+            for (int i = 0; i <= segments; i++)
             {
-                float angle1 = i * angleStep * Mathf.Deg2Rad;
-                float angle2 = (i + 1) * angleStep * Mathf.Deg2Rad;
+                float angle = i * angleStep * Mathf.Deg2Rad;
+                float cos = Mathf.Cos(angle);
+                float sin = Mathf.Sin(angle);
 
-                float x1 = center.x + Mathf.Cos(angle1) * radius;
-                float y1 = center.y + Mathf.Sin(angle1) * radius;
-                float x2 = center.x + Mathf.Cos(angle2) * radius;
-                float y2 = center.y + Mathf.Sin(angle2) * radius;
+                float xInner = center.x + cos * innerRadius;
+                float yInner = center.y + sin * innerRadius;
+                
+                float xOuter = center.x + cos * outerRadius;
+                float yOuter = center.y + sin * outerRadius;
 
-                GL.Vertex3(x1, y1, 0);
-                GL.Vertex3(x2, y2, 0);
-
-                // Draw extra lines for thickness
-                for (float t = 1; t <= thickness; t++)
-                {
-                    GL.Vertex3(x1, y1 + t, 0);
-                    GL.Vertex3(x2, y2 + t, 0);
-                    GL.Vertex3(x1, y1 - t, 0);
-                    GL.Vertex3(x2, y2 - t, 0);
-                }
+                // Alternate between inner and outer ring to form a continuous triangle strip
+                GL.Vertex3(xInner, yInner, 0);
+                GL.Vertex3(xOuter, yOuter, 0);
             }
 
             GL.End();

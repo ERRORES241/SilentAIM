@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace SilentAim
 {
+    public enum BoneChoice
+    {
+        Head,
+        Neck,
+        Torso,
+        Hips,
+        Limb
+    }
+
     /// <summary>
     /// Mod settings integrated with ModSettings library.
     /// Extends JsonModSettings for automatic JSON persistence and in-game UI.
@@ -33,12 +42,15 @@ namespace SilentAim
 
         [Name("Target Bone")]
         [Description("Which body part to aim at")]
-        [Choice("Head", "Neck", "Torso", "Hips", "Limb")]
-        public int SelectedHitPoint = 0;
+        public BoneChoice SelectedHitPoint = BoneChoice.Head;
 
         [Name("Cycle Bone Hotkey")]
-        [Description("Key to cycle through target bones - CURRENTLY BROKEN, USE HOTKEY IN GAME TO CHANHE A BONE")]
+        [Description("Key to cycle through target bones")]
         public KeyCode CycleBoneKey = KeyCode.F3;
+
+        [Name("Enable Visibility Check")]
+        [Description("Block silent aim if a target is behind walls or trees")]
+        public bool EnableVisibilityCheck = true;
 
         [Section("Target Filters")]
 
@@ -171,8 +183,8 @@ namespace SilentAim
 
         public static int SelectedHitPointIndex
         {
-            get => _settings.SelectedHitPoint;
-            set => _settings.SelectedHitPoint = value;
+            get => (int)_settings.SelectedHitPoint;
+            set => _settings.SelectedHitPoint = (BoneChoice)value;
         }
 
         public static string CurrentHitPointName =>
@@ -196,6 +208,7 @@ namespace SilentAim
 
         public static bool EnableDebugLogging => _settings.EnableDebugLogging;
         public static bool ShowTargetReticle => _settings.ShowTargetReticle;
+        public static bool EnableVisibilityCheck => _settings.EnableVisibilityCheck;
 
         // ── Hotkeys ──────────────────────────────────────────────
 

@@ -133,18 +133,21 @@ namespace SilentAim
                 if (angle > maxFovAngle) continue;
 
                 // Visibility Check (Line of Sight)
-                int layerMask = (1 << vp_Layer.Default) | 
-                                (1 << vp_Layer.Ground) | 
-                                (1 << vp_Layer.TerrainObject) | 
-                                (1 << vp_Layer.Buildings) | 
-                                (1 << vp_Layer.InteractiveProp);
-
-                if (Physics.Linecast(camPos, bonePos, out RaycastHit hit, layerMask))
+                if (Settings.EnableVisibilityCheck)
                 {
-                    // If the ray hits environment before the target (with a 0.75m tolerance to avoid clipping issues)
-                    if (Vector3.Distance(camPos, hit.point) < distance - 0.75f)
+                    int layerMask = (1 << vp_Layer.Default) | 
+                                    (1 << vp_Layer.Ground) | 
+                                    (1 << vp_Layer.TerrainObject) | 
+                                    (1 << vp_Layer.Buildings) | 
+                                    (1 << vp_Layer.InteractiveProp);
+
+                    if (Physics.Linecast(camPos, bonePos, out RaycastHit hit, layerMask))
                     {
-                        continue;
+                        // If the ray hits environment before the target (with a 0.75m tolerance to avoid clipping issues)
+                        if (Vector3.Distance(camPos, hit.point) < distance - 0.75f)
+                        {
+                            continue;
+                        }
                     }
                 }
 
