@@ -13,7 +13,7 @@ namespace SilentAim
         {
             Settings.Init();
             MelonLogger.Msg("═══════════════════════════════════════");
-            MelonLogger.Msg("  SilentAim v1.0.0 Loaded!");
+            MelonLogger.Msg("  SilentAim v0.0.5 Loaded!");
             MelonLogger.Msg($"  Toggle: {Settings.ToggleKey}");
             MelonLogger.Msg($"  Cycle Bone: {Settings.CycleBoneKey}");
             MelonLogger.Msg($"  FOV: {Settings.AimFov}°");
