@@ -1,0 +1,92 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>SilentAim</AssemblyName>
+    <RootNamespace>SilentAim</RootNamespace>
+    <OutputType>Library</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- Paths — adjust TLDPath if your game is installed elsewhere -->
+    <TLDPath>F:\SteamLibrary\steamapps\common\TheLongDark</TLDPath>
+    <MelonLoaderPath>$(TLDPath)\MelonLoader\net6</MelonLoaderPath>
+    <Il2CppAssembliesPath>$(TLDPath)\MelonLoader\Il2CppAssemblies</Il2CppAssembliesPath>
+  </PropertyGroup>
+
+  <!-- Exclude decompiled reference sources from compilation -->
+  <ItemGroup>
+    <Compile Remove="Assembly-CSharp\**" />
+    <None Remove="Assembly-CSharp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- MelonLoader Core -->
+    <Reference Include="MelonLoader">
+      <HintPath>$(MelonLoaderPath)\MelonLoader.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(MelonLoaderPath)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>$(MelonLoaderPath)\Il2CppInterop.Runtime.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Common">
+      <HintPath>$(MelonLoaderPath)\Il2CppInterop.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Game Assembly -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(Il2CppAssembliesPath)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Unity Engine Modules (from local lib) -->
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Assembly-CSharp\lib\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>Assembly-CSharp\lib\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>Assembly-CSharp\lib\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>Assembly-CSharp\lib\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>Assembly-CSharp\lib\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>Assembly-CSharp\lib\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- ModSettings Library -->
+    <Reference Include="ModSettings">
+      <HintPath>$(TLDPath)\Mods\ModSettings.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Il2Cpp System -->
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>Assembly-CSharp\lib\Il2Cppmscorlib.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2CppSystem">
+      <HintPath>Assembly-CSharp\lib\Il2CppSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
