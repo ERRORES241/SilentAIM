@@ -1,4 +1,4 @@
-well... silentaim with visibility checks, filters, custom fov, 4 bones(head, neck, torso, hibs, limb) 
+well... silentaim with visibility checks, filters, custom fov, 4 bones(head, neck, torso, hibs, limb), some visuals like - (target info, target line, fov circle)
 
 and.. 3 supported weapons - (any rifle, any bow and any revolver).
 
