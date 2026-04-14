@@ -4,6 +4,8 @@ and.. 3 supported weapons - (any rifle, any bow and any revolver).
 
 Maybe I'll be add support for stones and flares.. soon(nope)
 
+and maybe I'll be realize vector aimbot, but very very small chances(((
+
 
 
  DEFAULT HOTKEYS:
@@ -23,3 +25,10 @@ Maybe I'll be add support for stones and flares.. soon(nope)
  INSTALLATION:
 
 Just put SilentAIM.dll to your mods folder and go annihilate..
+
+
+ SCREENSHOTS:
+(SOON)
+
+ DEMONSTRATION:
+SOON(nope)
