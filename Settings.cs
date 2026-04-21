@@ -85,6 +85,12 @@ namespace SilentAim
         [Name("Enable for Bow")]
         public bool EnableForBow = false;
 
+        [Name("Enable for Stone")]
+        public bool EnableForStone = false;
+
+        [Name("Enable for Flare Gun")]
+        public bool EnableForFlareGun = false;
+
         // ── Visual ───────────────────────────────────────────────
 
         [Section("Visual")]
@@ -177,6 +183,8 @@ namespace SilentAim
         public static bool EnableForRifle => _settings.EnableForRifle;
         public static bool EnableForRevolver => _settings.EnableForRevolver;
         public static bool EnableForBow => _settings.EnableForBow;
+        public static bool EnableForStone => _settings.EnableForStone;
+        public static bool EnableForFlareGun => _settings.EnableForFlareGun;
 
         public static Color FovCircleColor =>
             new(_settings.FovCircleR, _settings.FovCircleG, _settings.FovCircleB, _settings.FovCircleA);
