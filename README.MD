@@ -22,7 +22,7 @@ Projectiles redirect to the nearest target inside your FOV cone. No camera movem
 Camera smoothly tracks a target bone while you're aiming down sights. Smooth factor controls how fast it catches up — 1 snaps instantly, 20 is cinematic slow.
 
 - Only active in ADS (`right-click`)
-- Independent FOV, range, and bone settings from Silent Aim
+- Independent FOV, range, and bone settings from Silent Aim — you can track neck with Vector Aim while Silent Aim redirects to head
 - Per-weapon toggles
 - Bow not supported. ehhhhh.........
 
@@ -38,13 +38,29 @@ Camera smoothly tracks a target bone while you're aiming down sights. Smooth fac
 
 ---
 
+### Visuals
+
+All overlays are optional and toggled individually in mod settings.
+
+| Overlay | Description |
+| :--- | :--- |
+| FOV Circle | Draws a circle on screen showing the exact cone Silent Aim uses to pick targets |
+| Target Reticle | Small crosshair drawn directly on the selected target bone in world space |
+| Target Line | Line from the center of the screen to the target bone — shows what's being tracked |
+| Target Info | Text overlay: animal name, targeted bone, and distance in meters |
+
+Colors and opacity for the FOV circle are configurable via RGB + alpha sliders.
+
+---
+
 ### Hotkeys
 
 | Action | Key |
 | :--- | :--- |
 | Toggle Silent Aim | `F2` (configurable) |
 | Toggle Vector Aim | `F4` (configurable) |
-| Adjust FOV | `Ctrl` + scroll wheel |
+
+Toggling either system via hotkey immediately updates the mod settings menu — child options appear and disappear in real time.
 
 ---
 

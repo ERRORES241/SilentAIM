@@ -339,6 +339,12 @@ namespace AimMod
             _settings.RefreshGUI();
         }
 
+        public static void RefreshUI()
+        {
+            _settings.RefreshVisibility();
+            _settings.RefreshGUI();
+        }
+
         public static void Init()
         {
             _settings = new SilentAimSettings();

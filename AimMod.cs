@@ -30,35 +30,15 @@ namespace AimMod
             if (Input.GetKeyDown(Settings.ToggleKey))
             {
                 Settings.Enabled = !Settings.Enabled;
+                Settings.RefreshUI();
                 MelonLogger.Msg($"[SilentAim] {(Settings.Enabled ? "ENABLED" : "DISABLED")}");
             }
 
             if (Input.GetKeyDown(Settings.VectorAimToggleKey))
             {
                 Settings.VectorAimEnabled = !Settings.VectorAimEnabled;
+                Settings.RefreshUI();
                 MelonLogger.Msg($"[VectorAim] {(Settings.VectorAimEnabled ? "ENABLED" : "DISABLED")}");
-            }
-
-            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
-            {
-                float scroll = Input.GetAxis("Mouse ScrollWheel");
-                if (scroll != 0f)
-                {
-                    Settings.AimFov = Mathf.Clamp(Settings.AimFov + scroll * 50f, 5f, 180f);
-                    MelonLogger.Msg($"[SilentAim] FOV: {Settings.AimFov:F0}°");
-                }
-
-                if (Input.GetKeyDown(KeyCode.Equals) || Input.GetKeyDown(KeyCode.KeypadPlus))
-                {
-                    Settings.AimFov = Mathf.Clamp(Settings.AimFov + 5f, 5f, 180f);
-                    MelonLogger.Msg($"[SilentAim] FOV: {Settings.AimFov:F0}°");
-                }
-
-                if (Input.GetKeyDown(KeyCode.Minus) || Input.GetKeyDown(KeyCode.KeypadMinus))
-                {
-                    Settings.AimFov = Mathf.Clamp(Settings.AimFov - 5f, 5f, 180f);
-                    MelonLogger.Msg($"[SilentAim] FOV: {Settings.AimFov:F0}°");
-                }
             }
         }
     }
