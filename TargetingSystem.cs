@@ -24,12 +24,16 @@ namespace SilentAim
             public string BoneName;
         }
 
-        // Cache for the current frame's best target
+        // Cache for Silent Aim
         private static TargetResult _lastResult;
         private static int _lastFrameUpdated = -1;
 
+        // Separate cache for Vector Aim (different FOV/bone/range settings)
+        private static TargetResult _lastVectorAimResult;
+        private static int _lastVectorAimFrame = -1;
+
         /// <summary>
-        /// Returns the current best target. Results are cached per frame.
+        /// Returns the best target for Silent Aim. Cached per frame.
         /// </summary>
         public static TargetResult GetCurrentTarget()
         {
@@ -38,23 +42,46 @@ namespace SilentAim
                 return _lastResult;
 
             _lastFrameUpdated = frame;
-            _lastResult = FindBestTarget();
+            _lastResult = FindBestTarget(
+                Settings.AimFov,
+                Settings.MaxRange,
+                Settings.CurrentBodyPartEnum,
+                Settings.EnableVisibilityCheck);
             return _lastResult;
         }
 
         /// <summary>
-        /// Clears the target cache, forcing a re-scan next call.
+        /// Returns the best target for Vector Aim using its own settings. Cached per frame.
+        /// </summary>
+        public static TargetResult GetVectorAimTarget()
+        {
+            int frame = Time.frameCount;
+            if (frame == _lastVectorAimFrame)
+                return _lastVectorAimResult;
+
+            _lastVectorAimFrame = frame;
+            _lastVectorAimResult = FindBestTarget(
+                Settings.VectorAimFov,
+                Settings.VectorAimMaxRange,
+                Settings.VectorAimBodyPartEnum,
+                Settings.VectorAimEnableVisibilityCheck);
+            return _lastVectorAimResult;
+        }
+
+        /// <summary>
+        /// Clears both caches, forcing a re-scan next call.
         /// </summary>
         public static void InvalidateCache()
         {
             _lastFrameUpdated = -1;
+            _lastVectorAimFrame = -1;
         }
 
         /// <summary>
         /// Scans all alive AI in the scene and finds the best target
-        /// within the configured FOV cone and max range.
+        /// within the given FOV cone, range, and targeting parameters.
         /// </summary>
-        private static TargetResult FindBestTarget()
+        private static TargetResult FindBestTarget(float aimFov, float maxRange, int desiredBodyPart, bool visibilityCheck)
         {
             var result = new TargetResult { Found = false };
 
@@ -65,9 +92,7 @@ namespace SilentAim
             Vector3 camPos = camTransform.position;
             Vector3 camForward = camTransform.forward;
             float cameraFov = cam.fieldOfView;
-            float maxFovAngle = Settings.AimFov / 2f;
-            float maxRange = Settings.MaxRange;
-            int desiredBodyPart = Settings.CurrentBodyPartEnum;
+            float maxFovAngle = aimFov / 2f;
 
             // Access all alive AI from the manager
             var aiList = BaseAiManager.m_BaseAis;
@@ -133,7 +158,7 @@ namespace SilentAim
                 if (angle > maxFovAngle) continue;
 
                 // Visibility Check (Line of Sight)
-                if (Settings.EnableVisibilityCheck)
+                if (visibilityCheck)
                 {
                     int layerMask = (1 << vp_Layer.Default) | 
                                     (1 << vp_Layer.Ground) | 
@@ -243,22 +268,23 @@ namespace SilentAim
         }
 
         /// <summary>
-        /// Calculates the screen-space FOV circle radius in pixels
-        /// based on the aim FOV and the camera's actual FOV.
+        /// Calculates the screen-space FOV circle radius in pixels for Silent Aim.
         /// </summary>
-        public static float GetFovCircleRadiusPixels()
+        public static float GetFovCircleRadiusPixels() =>
+            GetFovCircleRadiusPixels(Settings.AimFov);
+
+        /// <summary>
+        /// Calculates the screen-space FOV circle radius in pixels for a given aim FOV.
+        /// radius = screenHalfHeight * tan(aimHalfFov) / tan(cameraHalfFov)
+        /// </summary>
+        public static float GetFovCircleRadiusPixels(float aimFovDegrees)
         {
             Camera cam = GameManager.GetMainCamera();
             if (cam == null) return 100f;
 
-            float cameraFov = cam.fieldOfView;
-            float aimHalfFov = Settings.AimFov / 2f;
-
-            // Convert aim FOV angle to pixel radius on screen
-            // radius = screenHalfHeight * tan(aimHalfFov) / tan(cameraHalfFov)
             float screenHalfHeight = Screen.height / 2f;
-            float tanAim = Mathf.Tan(aimHalfFov * Mathf.Deg2Rad);
-            float tanCam = Mathf.Tan(cameraFov / 2f * Mathf.Deg2Rad);
+            float tanAim = Mathf.Tan(aimFovDegrees / 2f * Mathf.Deg2Rad);
+            float tanCam = Mathf.Tan(cam.fieldOfView / 2f * Mathf.Deg2Rad);
 
             if (tanCam <= 0f) return 100f;
 

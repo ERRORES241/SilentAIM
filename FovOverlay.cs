@@ -31,19 +31,28 @@ namespace SilentAim
         /// </summary>
         public static void Draw()
         {
-            if (!Settings.Enabled) return;
+            if (!Settings.Enabled && !Settings.VectorAimEnabled) return;
 
             Vector2 center = new Vector2(Screen.width / 2f, Screen.height / 2f);
 
-            // Draw FOV circle
-            if (Settings.ShowFovCircle)
+            // Draw Silent Aim FOV circle
+            if (Settings.Enabled && Settings.ShowFovCircle)
             {
                 float radius = TargetingSystem.GetFovCircleRadiusPixels();
                 DrawCircle(center, radius, Settings.FovCircleColor, 2f);
             }
 
-            // Get current target
-            var target = TargetingSystem.GetCurrentTarget();
+            // Draw Vector Aim FOV circle (blue, slightly thinner)
+            if (Settings.VectorAimEnabled && Settings.ShowFovCircle)
+            {
+                float vaRadius = TargetingSystem.GetFovCircleRadiusPixels(Settings.VectorAimFov);
+                DrawCircle(center, vaRadius, new Color(0.2f, 0.6f, 1f, 0.5f), 1.5f);
+            }
+
+            // Get current target (Silent Aim takes priority for overlay)
+            var target = Settings.Enabled
+                ? TargetingSystem.GetCurrentTarget()
+                : TargetingSystem.GetVectorAimTarget();
 
             if (target.Found)
             {
@@ -225,7 +234,7 @@ namespace SilentAim
 
         /// <summary>
         /// Draws the status HUD at the top-center of the screen.
-        /// Shows enabled state, selected bone, and FOV.
+        /// Shows Silent Aim and Vector Aim states, selected bones, and FOVs.
         /// </summary>
         private static void DrawStatusHud(TargetingSystem.TargetResult target)
         {
@@ -240,21 +249,33 @@ namespace SilentAim
             GUIStyle shadowStyle = new GUIStyle(style);
             shadowStyle.normal.textColor = new Color(0, 0, 0, 0.7f);
 
+            // Silent Aim line
             string richHud = Settings.Enabled
                 ? $"<color=#66FF66>SilentAim [ON]</color> | Bone: <color=#FFD700>{Settings.CurrentHitPointName}</color> | FOV: {Settings.AimFov:F0}°"
                 : $"<color=#FF6666>SilentAim [OFF]</color>";
 
             if (target.Found && Settings.Enabled)
-            {
                 richHud += $" | <color=#FF9933>{target.AiName}</color>";
-            }
 
-            float hudWidth = 600;
-            Rect shadowRect = new Rect(Screen.width / 2f - hudWidth / 2f + 1, 11, hudWidth, 25);
-            Rect textRect = new Rect(Screen.width / 2f - hudWidth / 2f, 10, hudWidth, 25);
+            // Vector Aim line
+            string vaColor = Settings.VectorAimEnabled ? "#66CCFF" : "#FF6666";
+            string vaState = Settings.VectorAimEnabled ? "ON" : "OFF";
+            string vaTracking = VectorAimSystem.IsTracking ? " <color=#00FF88>●</color>" : "";
+            string vaLine = $"<color={vaColor}>VectorAim [{vaState}]</color>" +
+                            (Settings.VectorAimEnabled
+                                ? $" | Bone: <color=#FFD700>{Settings.HitPointNames[Settings.VectorAimSelectedHitPointIndex]}</color> | FOV: {Settings.VectorAimFov:F0}° | Smooth: {Settings.VectorAimSmoothFactor:F0}{vaTracking}"
+                                : "");
 
-            GUI.Label(shadowRect, richHud, shadowStyle);
-            GUI.Label(textRect, richHud, style);
+            float hudWidth = 700;
+            float cx = Screen.width / 2f - hudWidth / 2f;
+
+            // Row 1 — Silent Aim
+            GUI.Label(new Rect(cx + 1, 11, hudWidth, 25), richHud, shadowStyle);
+            GUI.Label(new Rect(cx, 10, hudWidth, 25), richHud, style);
+
+            // Row 2 — Vector Aim
+            GUI.Label(new Rect(cx + 1, 31, hudWidth, 25), vaLine, shadowStyle);
+            GUI.Label(new Rect(cx, 30, hudWidth, 25), vaLine, style);
         }
     }
 }

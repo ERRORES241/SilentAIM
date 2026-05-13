@@ -13,11 +13,9 @@ namespace SilentAim
         {
             Settings.Init();
             MelonLogger.Msg("═══════════════════════════════════════");
-            MelonLogger.Msg("  SilentAim v1.0 Loaded!");
-            MelonLogger.Msg($"  Toggle: {Settings.ToggleKey}");
-            MelonLogger.Msg($"  Cycle Bone: {Settings.CycleBoneKey}");
-            MelonLogger.Msg($"  FOV: {Settings.AimFov}°");
-            MelonLogger.Msg($"  Hit Point: {Settings.CurrentHitPointName}");
+            MelonLogger.Msg("  SilentAimPlusVector Loaded!");
+            MelonLogger.Msg($"  [SilentAim] Toggle: {Settings.ToggleKey} | FOV: {Settings.AimFov}° | Bone: {Settings.CurrentHitPointName}");
+            MelonLogger.Msg($"  [VectorAim] Smooth: {Settings.VectorAimSmoothFactor} | FOV: {Settings.VectorAimFov}° | Bone: {Settings.VectorAimSelectedHitPointIndex}");
             MelonLogger.Msg("═══════════════════════════════════════");
         }
 

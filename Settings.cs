@@ -91,6 +91,55 @@ namespace SilentAim
         [Name("Enable for Flare Gun")]
         public bool EnableForFlareGun = false;
 
+        // ── Vector Aim ───────────────────────────────────────────
+
+        [Section("Vector Aim")]
+
+        [Name("Enable Vector Aim")]
+        [Description("Physically moves the camera toward the target bone while aiming (ADS). Independent from Silent Aim.")]
+        public bool VectorAimEnabled = false;
+
+        [Name("Smooth Factor")]
+        [Description("Camera tracking speed. 1 = instant snap, 20 = very slow / cinematic")]
+        [Slider(1f, 20f)]
+        public float VectorAimSmoothFactor = 5f;
+
+        [Name("Aim FOV (degrees)")]
+        [Description("Field of view cone for Vector Aim target detection")]
+        [Slider(5f, 180f)]
+        public float VectorAimFov = 60f;
+
+        [Name("Max Range (meters)")]
+        [Slider(10f, 500f)]
+        public float VectorAimMaxRange = 200f;
+
+        [Name("Target Bone")]
+        [Description("Which body part the camera tracks")]
+        public BoneChoice VectorAimSelectedHitPoint = BoneChoice.Head;
+
+        [Name("Enable Visibility Check")]
+        [Description("Block Vector Aim if target is behind walls or trees")]
+        public bool VectorAimEnableVisibilityCheck = true;
+
+        // ── Vector Aim - Weapons ──────────────────────────────────
+
+        [Section("Vector Aim - Weapons")]
+
+        [Name("Enable for Rifle")]
+        public bool VectorAimForRifle = false;
+
+        [Name("Enable for Revolver")]
+        public bool VectorAimForRevolver = false;
+
+        [Name("Enable for Bow")]
+        public bool VectorAimForBow = false;
+
+        [Name("Enable for Stone")]
+        public bool VectorAimForStone = false;
+
+        [Name("Enable for Flare Gun")]
+        public bool VectorAimForFlareGun = false;
+
         // ── Visual ───────────────────────────────────────────────
 
         [Section("Visual")]
@@ -217,6 +266,26 @@ namespace SilentAim
         public static bool EnableDebugLogging => _settings.EnableDebugLogging;
         public static bool ShowTargetReticle => _settings.ShowTargetReticle;
         public static bool EnableVisibilityCheck => _settings.EnableVisibilityCheck;
+
+        // ── Vector Aim ───────────────────────────────────────────
+
+        public static bool VectorAimEnabled => _settings.VectorAimEnabled;
+        public static float VectorAimSmoothFactor => _settings.VectorAimSmoothFactor;
+        public static float VectorAimFov => _settings.VectorAimFov;
+        public static float VectorAimMaxRange => _settings.VectorAimMaxRange;
+        public static bool VectorAimEnableVisibilityCheck => _settings.VectorAimEnableVisibilityCheck;
+        public static bool VectorAimForRifle => _settings.VectorAimForRifle;
+        public static bool VectorAimForRevolver => _settings.VectorAimForRevolver;
+        public static bool VectorAimForBow => _settings.VectorAimForBow;
+        public static bool VectorAimForStone => _settings.VectorAimForStone;
+        public static bool VectorAimForFlareGun => _settings.VectorAimForFlareGun;
+
+        public static int VectorAimSelectedHitPointIndex => (int)_settings.VectorAimSelectedHitPoint;
+
+        public static int VectorAimBodyPartEnum =>
+            VectorAimSelectedHitPointIndex < HitPointToBodyPart.Length
+                ? HitPointToBodyPart[VectorAimSelectedHitPointIndex]
+                : 0;
 
         // ── Hotkeys ──────────────────────────────────────────────
 
