@@ -45,33 +45,9 @@ namespace AimMod
         [Description("Which body part to aim at")]
         public BoneChoice SelectedHitPoint = BoneChoice.Head;
 
-        [Name("Cycle Bone Hotkey")]
-        [Description("Key to cycle through target bones")]
-        public KeyCode CycleBoneKey = KeyCode.F3;
-
         [Name("Enable Visibility Check")]
         [Description("Block silent aim if a target is behind walls or trees")]
         public bool EnableVisibilityCheck = true;
-
-        [Section("Target Filters")]
-
-        [Name("Target Wolves")]
-        public bool TargetWolves = true;
-
-        [Name("Target Bears")]
-        public bool TargetBears = true;
-
-        [Name("Target Deer/Stag")]
-        public bool TargetStags = true;
-
-        [Name("Target Rabbits")]
-        public bool TargetRabbits = true;
-
-        [Name("Target Moose")]
-        public bool TargetMoose = true;
-
-        [Name("Target Cougars")]
-        public bool TargetCougars = true;
 
         // ── Weapons ──────────────────────────────────────────────
 
@@ -99,6 +75,10 @@ namespace AimMod
         [Name("Enable Vector Aim")]
         [Description("Physically moves the camera toward the target bone while aiming (ADS). Independent from Silent Aim.")]
         public bool VectorAimEnabled = false;
+
+        [Name("Toggle Hotkey")]
+        [Description("Key to toggle Vector Aim on/off")]
+        public KeyCode VectorAimToggleKey = KeyCode.F4;
 
         [Name("Smooth Factor")]
         [Description("Camera tracking speed. 1 = instant snap, 20 = very slow / cinematic")]
@@ -137,6 +117,28 @@ namespace AimMod
 
         [Name("Enable for Flare Gun")]
         public bool VectorAimForFlareGun = false;
+
+        // ── Target Info ───────────────────────────────────────────────
+
+        [Section("Target Filters")]
+
+        [Name("Target Wolves")]
+        public bool TargetWolves = true;
+
+        [Name("Target Bears")]
+        public bool TargetBears = true;
+
+        [Name("Target Deer/Stag")]
+        public bool TargetStags = true;
+
+        [Name("Target Rabbits")]
+        public bool TargetRabbits = true;
+
+        [Name("Target Moose")]
+        public bool TargetMoose = true;
+
+        [Name("Target Cougars")]
+        public bool TargetCougars = true;
 
         // ── Visual ───────────────────────────────────────────────
 
@@ -203,7 +205,6 @@ namespace AimMod
             SetFieldVisible(nameof(AimFov),                sa);
             SetFieldVisible(nameof(MaxRange),              sa);
             SetFieldVisible(nameof(SelectedHitPoint),      sa);
-            SetFieldVisible(nameof(CycleBoneKey),          sa);
             SetFieldVisible(nameof(EnableVisibilityCheck), sa);
             SetFieldVisible(nameof(EnableForRifle),        sa);
             SetFieldVisible(nameof(EnableForRevolver),     sa);
@@ -213,6 +214,7 @@ namespace AimMod
 
             // Vector Aim child settings — hide everything except the master toggle
             bool va = VectorAimEnabled;
+            SetFieldVisible(nameof(VectorAimToggleKey),             va);
             SetFieldVisible(nameof(VectorAimSmoothFactor),          va);
             SetFieldVisible(nameof(VectorAimFov),                   va);
             SetFieldVisible(nameof(VectorAimMaxRange),               va);
@@ -303,7 +305,13 @@ namespace AimMod
 
         // ── Vector Aim ───────────────────────────────────────────
 
-        public static bool VectorAimEnabled => _settings.VectorAimEnabled;
+        public static bool VectorAimEnabled
+        {
+            get => _settings.VectorAimEnabled;
+            set => _settings.VectorAimEnabled = value;
+        }
+
+        public static KeyCode VectorAimToggleKey => _settings.VectorAimToggleKey;
         public static float VectorAimSmoothFactor => _settings.VectorAimSmoothFactor;
         public static float VectorAimFov => _settings.VectorAimFov;
         public static float VectorAimMaxRange => _settings.VectorAimMaxRange;
@@ -323,8 +331,6 @@ namespace AimMod
         // ── Hotkeys ──────────────────────────────────────────────
 
         public static KeyCode ToggleKey => _settings.ToggleKey;
-        public static KeyCode CycleBoneKey => _settings.CycleBoneKey;
-
         // ── Methods ──────────────────────────────────────────────
 
         public static void CycleHitPoint()

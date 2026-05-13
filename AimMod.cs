@@ -3,11 +3,7 @@ using UnityEngine;
 
 namespace AimMod
 {
-    /// <summary>
-    /// Main MelonLoader mod entry point for the Silent Aim mod.
-    /// Handles initialization, hotkeys, and GUI rendering.
-    /// </summary>
-    public class SilentAimMod : MelonMod
+    public class AimMod : MelonMod
     {
         public override void OnInitializeMelon()
         {
@@ -15,7 +11,7 @@ namespace AimMod
             MelonLogger.Msg("═══════════════════════════════════════");
             MelonLogger.Msg("  AimbotMod_TLD Loaded!");
             MelonLogger.Msg($"  [SilentAim] Toggle: {Settings.ToggleKey} | FOV: {Settings.AimFov}° | Bone: {Settings.CurrentHitPointName}");
-            MelonLogger.Msg($"  [VectorAim] Smooth: {Settings.VectorAimSmoothFactor} | FOV: {Settings.VectorAimFov}° | Bone: {Settings.VectorAimSelectedHitPointIndex}");
+            MelonLogger.Msg($"  [VectorAim] Toggle: {Settings.VectorAimToggleKey} | Smooth: {Settings.VectorAimSmoothFactor} | FOV: {Settings.VectorAimFov}°");
             MelonLogger.Msg("═══════════════════════════════════════");
         }
 
@@ -31,21 +27,18 @@ namespace AimMod
 
         private void HandleHotkeys()
         {
-            // Toggle silent aim on/off
             if (Input.GetKeyDown(Settings.ToggleKey))
             {
                 Settings.Enabled = !Settings.Enabled;
                 MelonLogger.Msg($"[SilentAim] {(Settings.Enabled ? "ENABLED" : "DISABLED")}");
             }
 
-            // Cycle through body parts
-            if (Input.GetKeyDown(Settings.CycleBoneKey))
+            if (Input.GetKeyDown(Settings.VectorAimToggleKey))
             {
-                Settings.CycleHitPoint();
-                MelonLogger.Msg($"[SilentAim] Hit Point: {Settings.CurrentHitPointName}");
+                Settings.VectorAimEnabled = !Settings.VectorAimEnabled;
+                MelonLogger.Msg($"[VectorAim] {(Settings.VectorAimEnabled ? "ENABLED" : "DISABLED")}");
             }
 
-            // Adjust FOV with Ctrl+Scroll or Ctrl+Plus/Minus
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
             {
                 float scroll = Input.GetAxis("Mouse ScrollWheel");

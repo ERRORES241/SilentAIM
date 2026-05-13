@@ -2,7 +2,7 @@
 
 [![MelonLoader](https://img.shields.io/badge/MelonLoader-0.7.2-blue.svg)](https://github.com/LavaGang/MelonLoader)
 [![ModSettings](https://img.shields.io/badge/Dependency-ModSettings-orange.svg)](https://github.com/zeobviouslyfakeacc/ModSettings)
-[![Version](https://img.shields.io/badge/Version-1.0-green.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.2.5-green.svg)](#)
 
 Two independent aim systems for The Long Dark. Silent Aim redirects projectiles to the target bone without moving the camera. Vector Aim physically tracks a target bone with the camera while you're in ADS. Both can run at the same time.
 
@@ -24,10 +24,17 @@ Camera smoothly tracks a target bone while you're aiming down sights. Smooth fac
 - Only active in ADS (`right-click`)
 - Independent FOV, range, and bone settings from Silent Aim
 - Per-weapon toggles
+- Bow not supported. ehhhhh.........
 
 ### Weapons
 
-Both systems support: **Rifle**, **Revolver**, **Bow**, **Stones**, **Flare Gun** — toggled individually per system in settings.
+| Weapon | Silent Aim | Vector Aim |
+| :--- | :---: | :---: |
+| Rifle | ✓ | ✓ |
+| Revolver | ✓ | ✓ |
+| Bow | ✓ | — |
+| Stones | ✓ | ✓ |
+| Flare Gun | ✓ | ✓ |
 
 ---
 
@@ -36,7 +43,7 @@ Both systems support: **Rifle**, **Revolver**, **Bow**, **Stones**, **Flare Gun*
 | Action | Key |
 | :--- | :--- |
 | Toggle Silent Aim | `F2` (configurable) |
-| Cycle Bone | `F3` (configurable) |
+| Toggle Vector Aim | `F4` (configurable) |
 | Adjust FOV | `Ctrl` + scroll wheel |
 
 ---
