@@ -1,4 +1,4 @@
-# AimbotMod_TLD
+# Aimbot Mod TLD
 
 [![MelonLoader](https://img.shields.io/badge/MelonLoader-0.7.2-blue.svg)](https://github.com/LavaGang/MelonLoader)
 [![ModSettings](https://img.shields.io/badge/Dependency-ModSettings-orange.svg)](https://github.com/zeobviouslyfakeacc/ModSettings)
