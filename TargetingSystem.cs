@@ -3,7 +3,7 @@ using MelonLoader;
 using UnityEngine;
 using Il2CppInterop.Runtime;
 
-namespace SilentAim
+namespace AimMod
 {
     /// <summary>
     /// Core targeting system that scans all alive AI entities,

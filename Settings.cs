@@ -1,7 +1,8 @@
-using ModSettings;
+﻿using ModSettings;
+using System.Reflection;
 using UnityEngine;
 
-namespace SilentAim
+namespace AimMod
 {
     public enum BoneChoice
     {
@@ -18,9 +19,9 @@ namespace SilentAim
     /// </summary>
     public class SilentAimSettings : JsonModSettings
     {
-        // ── General ──────────────────────────────────────────────
+        // ── Silent Aim ──────────────────────────────────────────────
 
-        [Section("General")]
+        [Section("Silent Aim")]
 
         [Name("Enable Silent Aim")]
         [Description("So, you've decided to become a cheater...")]
@@ -131,9 +132,6 @@ namespace SilentAim
         [Name("Enable for Revolver")]
         public bool VectorAimForRevolver = false;
 
-        [Name("Enable for Bow")]
-        public bool VectorAimForBow = false;
-
         [Name("Enable for Stone")]
         public bool VectorAimForStone = false;
 
@@ -184,10 +182,46 @@ namespace SilentAim
         [Description("Print messages to console when targeting and shooting")]
         public bool EnableDebugLogging = false;
 
+        protected override void OnChange(FieldInfo field, object oldValue, object newValue)
+        {
+            base.OnChange(field, oldValue, newValue);
+            RefreshVisibility();
+            RefreshGUI();
+        }
+
         protected override void OnConfirm()
         {
             base.OnConfirm();
-            TargetingSystem.InvalidateCache(); // Force recalculation
+            TargetingSystem.InvalidateCache();
+        }
+
+        internal void RefreshVisibility()
+        {
+            // Silent Aim child settings — hide everything except the master toggle
+            bool sa = Enabled;
+            SetFieldVisible(nameof(ToggleKey),             sa);
+            SetFieldVisible(nameof(AimFov),                sa);
+            SetFieldVisible(nameof(MaxRange),              sa);
+            SetFieldVisible(nameof(SelectedHitPoint),      sa);
+            SetFieldVisible(nameof(CycleBoneKey),          sa);
+            SetFieldVisible(nameof(EnableVisibilityCheck), sa);
+            SetFieldVisible(nameof(EnableForRifle),        sa);
+            SetFieldVisible(nameof(EnableForRevolver),     sa);
+            SetFieldVisible(nameof(EnableForBow),          sa);
+            SetFieldVisible(nameof(EnableForStone),        sa);
+            SetFieldVisible(nameof(EnableForFlareGun),     sa);
+
+            // Vector Aim child settings — hide everything except the master toggle
+            bool va = VectorAimEnabled;
+            SetFieldVisible(nameof(VectorAimSmoothFactor),          va);
+            SetFieldVisible(nameof(VectorAimFov),                   va);
+            SetFieldVisible(nameof(VectorAimMaxRange),               va);
+            SetFieldVisible(nameof(VectorAimSelectedHitPoint),       va);
+            SetFieldVisible(nameof(VectorAimEnableVisibilityCheck),  va);
+            SetFieldVisible(nameof(VectorAimForRifle),               va);
+            SetFieldVisible(nameof(VectorAimForRevolver),            va);
+            SetFieldVisible(nameof(VectorAimForStone),               va);
+            SetFieldVisible(nameof(VectorAimForFlareGun),            va);
         }
     }
 
@@ -276,7 +310,6 @@ namespace SilentAim
         public static bool VectorAimEnableVisibilityCheck => _settings.VectorAimEnableVisibilityCheck;
         public static bool VectorAimForRifle => _settings.VectorAimForRifle;
         public static bool VectorAimForRevolver => _settings.VectorAimForRevolver;
-        public static bool VectorAimForBow => _settings.VectorAimForBow;
         public static bool VectorAimForStone => _settings.VectorAimForStone;
         public static bool VectorAimForFlareGun => _settings.VectorAimForFlareGun;
 
@@ -303,7 +336,9 @@ namespace SilentAim
         public static void Init()
         {
             _settings = new SilentAimSettings();
-            _settings.AddToModSettings("Silent Aim");
+            _settings.AddToModSettings("Aimbot Settings");
+            _settings.RefreshVisibility();
+            _settings.RefreshGUI();
         }
     }
 }

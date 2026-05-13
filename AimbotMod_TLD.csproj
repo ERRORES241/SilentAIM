@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>SilentAim</AssemblyName>
+    <AssemblyName>AimbotMod_TLD</AssemblyName>
     <RootNamespace>SilentAim</RootNamespace>
     <OutputType>Library</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

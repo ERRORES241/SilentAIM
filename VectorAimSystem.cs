@@ -2,7 +2,7 @@ using Il2Cpp;
 using MelonLoader;
 using UnityEngine;
 
-namespace SilentAim
+namespace AimMod
 {
     /// <summary>
     /// Physically moves the FPS camera toward the target bone while the player is in ADS.
@@ -115,8 +115,7 @@ namespace SilentAim
                     };
                 }
 
-                if (item.GetComponent<BowItem>()   != null) return Settings.VectorAimForBow;
-                if (item.GetComponent<StoneItem>()  != null) return Settings.VectorAimForStone;
+                if (item.GetComponent<StoneItem>() != null) return Settings.VectorAimForStone;
             }
             catch { }
             return false;

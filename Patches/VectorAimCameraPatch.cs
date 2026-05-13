@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Il2Cpp;
 
-namespace SilentAim.Patches
+namespace AimMod.Patches
 {
     /// <summary>
     /// Postfix on vp_FPSCamera.Update().

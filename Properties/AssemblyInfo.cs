@@ -1,11 +1,11 @@
-using MelonLoader;
+﻿using MelonLoader;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("SilentAim")]
+[assembly: AssemblyTitle("AimbotMod_TLD")]
 [assembly: AssemblyCopyright("ERORRESSS")]
 
-[assembly: MelonInfo(typeof(SilentAim.SilentAimMod), "SilentAim", "1.0", "ERORRESSS")]
+[assembly: MelonInfo(typeof(AimMod.SilentAimMod), "AimbotMod_TLD", "1.2.2", "ERORRESSS")]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
 [assembly: MelonColor(255, 255, 0, 255)]
 [assembly: MelonAuthorColor(255, 200, 0, 200)]

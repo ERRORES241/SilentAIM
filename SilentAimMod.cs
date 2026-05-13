@@ -1,7 +1,7 @@
 using MelonLoader;
 using UnityEngine;
 
-namespace SilentAim
+namespace AimMod
 {
     /// <summary>
     /// Main MelonLoader mod entry point for the Silent Aim mod.
@@ -13,7 +13,7 @@ namespace SilentAim
         {
             Settings.Init();
             MelonLogger.Msg("═══════════════════════════════════════");
-            MelonLogger.Msg("  SilentAimPlusVector Loaded!");
+            MelonLogger.Msg("  AimbotMod_TLD Loaded!");
             MelonLogger.Msg($"  [SilentAim] Toggle: {Settings.ToggleKey} | FOV: {Settings.AimFov}° | Bone: {Settings.CurrentHitPointName}");
             MelonLogger.Msg($"  [VectorAim] Smooth: {Settings.VectorAimSmoothFactor} | FOV: {Settings.VectorAimFov}° | Bone: {Settings.VectorAimSelectedHitPointIndex}");
             MelonLogger.Msg("═══════════════════════════════════════");

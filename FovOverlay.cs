@@ -1,7 +1,7 @@
 using Il2Cpp;
 using UnityEngine;
 
-namespace SilentAim
+namespace AimMod
 {
     /// <summary>
     /// Renders the 2D FOV circle overlay and target indicators using Unity's GL system.

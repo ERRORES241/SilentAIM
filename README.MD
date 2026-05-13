@@ -1,53 +1,63 @@
-# SilentAim for The Long Dark
+# AimbotMod_TLD
 
 [![MelonLoader](https://img.shields.io/badge/MelonLoader-0.7.2-blue.svg)](https://github.com/LavaGang/MelonLoader)
 [![ModSettings](https://img.shields.io/badge/Dependency-ModSettings-orange.svg)](https://github.com/zeobviouslyfakeacc/ModSettings)
 [![Version](https://img.shields.io/badge/Version-1.0-green.svg)](#)
 
-A simple yet powerful silent aim mod for **The Long Dark**. Includes visibility checks, filters, custom FOV, and support for multiple body parts.
+Two independent aim systems for The Long Dark. Silent Aim redirects projectiles to the target bone without moving the camera. Vector Aim physically tracks a target bone with the camera while you're in ADS. Both can run at the same time.
 
 ---
 
-### Features
-*   **Visibility Checks** — Targets only those you can actually see.
-*   **Filters** — Ignore specific animals or targets.
-*   **Custom FOV** — Fully adjustable field of view circle.
-*   **Target Selection** — Aim at 4 specific bones: `Head`, `Neck`, `Torso`, `Hips/Limb`.
-*   **Visuals** — Target info, tracer lines, and FOV circle.
+### Silent Aim
 
-### Supported Weapons
-Now supports projectiles!
-*   **Rifle**
-*   **Revolver**
-*   **Bow** (Arrows)
-*   **Stones** (New)
-*   **Flare Gun** (New)
+Projectiles redirect to the nearest target inside your FOV cone. No camera movement, no tells.
+
+- Aim at a specific bone: Head, Neck, Torso, Hips, or Limb
+- Optional visibility check — skips targets behind walls/trees
+- Per-animal and per-weapon toggles
+- FOV circle overlay so you know what's in range
+
+### Vector Aim
+
+Camera smoothly tracks a target bone while you're aiming down sights. Smooth factor controls how fast it catches up — 1 snaps instantly, 20 is cinematic slow.
+
+- Only active in ADS (`right-click`)
+- Independent FOV, range, and bone settings from Silent Aim
+- Per-weapon toggles
+
+### Weapons
+
+Both systems support: **Rifle**, **Revolver**, **Bow**, **Stones**, **Flare Gun** — toggled individually per system in settings.
 
 ---
 
-### Default Hotkeys
+### Hotkeys
+
 | Action | Key |
 | :--- | :--- |
-| **Master Switch** | `F2` (Configurable) |
-| **Choose Bone** | `F3` (Configurable) |
-| **FOV +/-** | `CTRL` + `Scroll Up/Down` |
+| Toggle Silent Aim | `F2` (configurable) |
+| Cycle Bone | `F3` (configurable) |
+| Adjust FOV | `Ctrl` + scroll wheel |
 
 ---
 
 ### Requirements
-1.  **MelonLoader** (v0.7.2+)
-2.  **ModSettings**
-3.  **The Long Dark** (v2.54+)
+
+- MelonLoader v0.7.2+
+- ModSettings
+- The Long Dark v2.54+
 
 ### Installation
-1.  Ensure you have the requirements installed.
-2.  Place `SilentAIM.dll` into your `Mods` folder.
-3.  Go annihilate...
+
+1. Drop `AimbotMod_TLD.dll` into your `Mods` folder.
+2. Launch the game. Configure both systems in the mod settings menu.
 
 ---
 
 ### Screenshots
+
 *(Coming Soon)*
 
-### Demonstration
+### Demo
+
 *(SOON™)*

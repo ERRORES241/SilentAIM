@@ -3,7 +3,7 @@ using Il2Cpp;
 using MelonLoader;
 using UnityEngine;
 
-namespace SilentAim.Patches
+namespace AimMod.Patches
 {
     /// <summary>
     /// Harmony patch for BowItem.ShootArrow() — intercepts bow shots
