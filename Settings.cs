@@ -1,7 +1,8 @@
-using ModSettings;
+﻿using ModSettings;
+using System.Reflection;
 using UnityEngine;
 
-namespace SilentAim
+namespace AimMod
 {
     public enum BoneChoice
     {
@@ -18,9 +19,9 @@ namespace SilentAim
     /// </summary>
     public class SilentAimSettings : JsonModSettings
     {
-        // ── General ──────────────────────────────────────────────
+        // ── Silent Aim ──────────────────────────────────────────────
 
-        [Section("General")]
+        [Section("Silent Aim")]
 
         [Name("Enable Silent Aim")]
         [Description("So, you've decided to become a cheater...")]
@@ -44,13 +45,80 @@ namespace SilentAim
         [Description("Which body part to aim at")]
         public BoneChoice SelectedHitPoint = BoneChoice.Head;
 
-        [Name("Cycle Bone Hotkey")]
-        [Description("Key to cycle through target bones")]
-        public KeyCode CycleBoneKey = KeyCode.F3;
-
         [Name("Enable Visibility Check")]
         [Description("Block silent aim if a target is behind walls or trees")]
         public bool EnableVisibilityCheck = true;
+
+        // ── Weapons ──────────────────────────────────────────────
+
+        [Section("Weapons")]
+
+        [Name("Enable for Rifle")]
+        public bool EnableForRifle = false;
+
+        [Name("Enable for Revolver")]
+        public bool EnableForRevolver = false;
+
+        [Name("Enable for Bow")]
+        public bool EnableForBow = false;
+
+        [Name("Enable for Stone")]
+        public bool EnableForStone = false;
+
+        [Name("Enable for Flare Gun")]
+        public bool EnableForFlareGun = false;
+
+        // ── Vector Aim ───────────────────────────────────────────
+
+        [Section("Vector Aim")]
+
+        [Name("Enable Vector Aim")]
+        [Description("Physically moves the camera toward the target bone while aiming (ADS). Independent from Silent Aim.")]
+        public bool VectorAimEnabled = false;
+
+        [Name("Toggle Hotkey")]
+        [Description("Key to toggle Vector Aim on/off")]
+        public KeyCode VectorAimToggleKey = KeyCode.F4;
+
+        [Name("Smooth Factor")]
+        [Description("Camera tracking speed. 1 = instant snap, 20 = very slow / cinematic")]
+        [Slider(1f, 20f)]
+        public float VectorAimSmoothFactor = 5f;
+
+        [Name("Aim FOV (degrees)")]
+        [Description("Field of view cone for Vector Aim target detection")]
+        [Slider(5f, 180f)]
+        public float VectorAimFov = 60f;
+
+        [Name("Max Range (meters)")]
+        [Slider(10f, 500f)]
+        public float VectorAimMaxRange = 200f;
+
+        [Name("Target Bone")]
+        [Description("Which body part the camera tracks")]
+        public BoneChoice VectorAimSelectedHitPoint = BoneChoice.Head;
+
+        [Name("Enable Visibility Check")]
+        [Description("Block Vector Aim if target is behind walls or trees")]
+        public bool VectorAimEnableVisibilityCheck = true;
+
+        // ── Vector Aim - Weapons ──────────────────────────────────
+
+        [Section("Vector Aim - Weapons")]
+
+        [Name("Enable for Rifle")]
+        public bool VectorAimForRifle = false;
+
+        [Name("Enable for Revolver")]
+        public bool VectorAimForRevolver = false;
+
+        [Name("Enable for Stone")]
+        public bool VectorAimForStone = false;
+
+        [Name("Enable for Flare Gun")]
+        public bool VectorAimForFlareGun = false;
+
+        // ── Target Info ───────────────────────────────────────────────
 
         [Section("Target Filters")]
 
@@ -71,25 +139,6 @@ namespace SilentAim
 
         [Name("Target Cougars")]
         public bool TargetCougars = true;
-
-        // ── Weapons ──────────────────────────────────────────────
-
-        [Section("Weapons")]
-
-        [Name("Enable for Rifle")]
-        public bool EnableForRifle = false;
-
-        [Name("Enable for Revolver")]
-        public bool EnableForRevolver = false;
-
-        [Name("Enable for Bow")]
-        public bool EnableForBow = false;
-
-        [Name("Enable for Stone")]
-        public bool EnableForStone = false;
-
-        [Name("Enable for Flare Gun")]
-        public bool EnableForFlareGun = false;
 
         // ── Visual ───────────────────────────────────────────────
 
@@ -135,10 +184,46 @@ namespace SilentAim
         [Description("Print messages to console when targeting and shooting")]
         public bool EnableDebugLogging = false;
 
+        protected override void OnChange(FieldInfo field, object oldValue, object newValue)
+        {
+            base.OnChange(field, oldValue, newValue);
+            RefreshVisibility();
+            RefreshGUI();
+        }
+
         protected override void OnConfirm()
         {
             base.OnConfirm();
-            TargetingSystem.InvalidateCache(); // Force recalculation
+            TargetingSystem.InvalidateCache();
+        }
+
+        internal void RefreshVisibility()
+        {
+            // Silent Aim child settings — hide everything except the master toggle
+            bool sa = Enabled;
+            SetFieldVisible(nameof(ToggleKey),             sa);
+            SetFieldVisible(nameof(AimFov),                sa);
+            SetFieldVisible(nameof(MaxRange),              sa);
+            SetFieldVisible(nameof(SelectedHitPoint),      sa);
+            SetFieldVisible(nameof(EnableVisibilityCheck), sa);
+            SetFieldVisible(nameof(EnableForRifle),        sa);
+            SetFieldVisible(nameof(EnableForRevolver),     sa);
+            SetFieldVisible(nameof(EnableForBow),          sa);
+            SetFieldVisible(nameof(EnableForStone),        sa);
+            SetFieldVisible(nameof(EnableForFlareGun),     sa);
+
+            // Vector Aim child settings — hide everything except the master toggle
+            bool va = VectorAimEnabled;
+            SetFieldVisible(nameof(VectorAimToggleKey),             va);
+            SetFieldVisible(nameof(VectorAimSmoothFactor),          va);
+            SetFieldVisible(nameof(VectorAimFov),                   va);
+            SetFieldVisible(nameof(VectorAimMaxRange),               va);
+            SetFieldVisible(nameof(VectorAimSelectedHitPoint),       va);
+            SetFieldVisible(nameof(VectorAimEnableVisibilityCheck),  va);
+            SetFieldVisible(nameof(VectorAimForRifle),               va);
+            SetFieldVisible(nameof(VectorAimForRevolver),            va);
+            SetFieldVisible(nameof(VectorAimForStone),               va);
+            SetFieldVisible(nameof(VectorAimForFlareGun),            va);
         }
     }
 
@@ -218,11 +303,34 @@ namespace SilentAim
         public static bool ShowTargetReticle => _settings.ShowTargetReticle;
         public static bool EnableVisibilityCheck => _settings.EnableVisibilityCheck;
 
+        // ── Vector Aim ───────────────────────────────────────────
+
+        public static bool VectorAimEnabled
+        {
+            get => _settings.VectorAimEnabled;
+            set => _settings.VectorAimEnabled = value;
+        }
+
+        public static KeyCode VectorAimToggleKey => _settings.VectorAimToggleKey;
+        public static float VectorAimSmoothFactor => _settings.VectorAimSmoothFactor;
+        public static float VectorAimFov => _settings.VectorAimFov;
+        public static float VectorAimMaxRange => _settings.VectorAimMaxRange;
+        public static bool VectorAimEnableVisibilityCheck => _settings.VectorAimEnableVisibilityCheck;
+        public static bool VectorAimForRifle => _settings.VectorAimForRifle;
+        public static bool VectorAimForRevolver => _settings.VectorAimForRevolver;
+        public static bool VectorAimForStone => _settings.VectorAimForStone;
+        public static bool VectorAimForFlareGun => _settings.VectorAimForFlareGun;
+
+        public static int VectorAimSelectedHitPointIndex => (int)_settings.VectorAimSelectedHitPoint;
+
+        public static int VectorAimBodyPartEnum =>
+            VectorAimSelectedHitPointIndex < HitPointToBodyPart.Length
+                ? HitPointToBodyPart[VectorAimSelectedHitPointIndex]
+                : 0;
+
         // ── Hotkeys ──────────────────────────────────────────────
 
         public static KeyCode ToggleKey => _settings.ToggleKey;
-        public static KeyCode CycleBoneKey => _settings.CycleBoneKey;
-
         // ── Methods ──────────────────────────────────────────────
 
         public static void CycleHitPoint()
@@ -231,10 +339,18 @@ namespace SilentAim
             _settings.RefreshGUI();
         }
 
+        public static void RefreshUI()
+        {
+            _settings.RefreshVisibility();
+            _settings.RefreshGUI();
+        }
+
         public static void Init()
         {
             _settings = new SilentAimSettings();
-            _settings.AddToModSettings("Silent Aim");
+            _settings.AddToModSettings("Aimbot Settings");
+            _settings.RefreshVisibility();
+            _settings.RefreshGUI();
         }
     }
 }

@@ -4,7 +4,7 @@ using MelonLoader;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SilentAim.Patches
+namespace AimMod.Patches
 {
     /// <summary>
     /// Harmony patch for StoneItem.FixedUpdate() — detects thrown stones in flight
